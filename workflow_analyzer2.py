@@ -1,7 +1,6 @@
 import json
 import streamlit as st
 from pyvis.network import Network
-import os
 
 # Streamlit UI Header
 st.title("Enhanced Workflow Analyzer and Visualizer")
@@ -106,4 +105,4 @@ if uploaded_file is not None:
                         next_step_name = step_id_to_name.get(next_step_id, "Unknown")
                         st.write(f" - **Next Step:** {next_step_name} ({next_step_id}), **Condition:** `{condition_expr}`")
                 else:
-           
+                    st.write("No conditional transitions.")
