@@ -1,6 +1,7 @@
 import json
 import streamlit as st
 from pyvis.network import Network
+import os
 
 # Streamlit UI Header
 st.title("Enhanced Workflow Analyzer and Visualizer")
@@ -70,9 +71,12 @@ if uploaded_file is not None:
     if missing_nodes:
         st.warning(f"Warning: The following steps are referenced but not defined in the workflow: {set(missing_nodes)}")
 
-    # Display the interactive network in Streamlit
-    net.show("workflow_visualization.html")
-    st.components.v1.html(open("workflow_visualization.html", "r").read(), height=750, scrolling=True)
+    # Generate the HTML visualization
+    try:
+        html_content = net.generate_html()  # Directly generate HTML without saving to file
+        st.components.v1.html(html_content, height=750, scrolling=True)  # Display in Streamlit
+    except Exception as e:
+        st.error(f"An error occurred while generating the visualization: {e}")
 
     # Display step-by-step information in the Streamlit app
     for step in dsl_data['Steps']:
@@ -102,4 +106,4 @@ if uploaded_file is not None:
                         next_step_name = step_id_to_name.get(next_step_id, "Unknown")
                         st.write(f" - **Next Step:** {next_step_name} ({next_step_id}), **Condition:** `{condition_expr}`")
                 else:
-                    st.write("No conditional transitions.")
+           
