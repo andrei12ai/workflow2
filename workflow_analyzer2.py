@@ -35,6 +35,10 @@ if uploaded_file is not None:
         "MessageSenderStep": "#e31a1c"
     }
     
+    # Initialize a set of valid step IDs to check for missing nodes
+    valid_step_ids = set(step['Id'] for step in dsl_data['Steps'])
+    missing_nodes = []
+
     # Loop through each step and display its details
     for step in dsl_data['Steps']:
         step_type = step["StepType"].split(".")[-1]
@@ -76,14 +80,24 @@ if uploaded_file is not None:
         title = f"<b>{step['Name']}</b><br>Type: {step_type}<br>Operation: {step.get('Inputs', {}).get('OperationName', 'N/A')}"
         net.add_node(step["Id"], label=step["Name"], color=color, title=title)
         
-        # Add edge to the next step if specified
-        if step.get("NextStepId"):
-            net.add_edge(step["Id"], step["NextStepId"])
+        # Check if the NextStepId exists before adding the edge
+        next_step_id = step.get("NextStepId")
+        if next_step_id and next_step_id in valid_step_ids:
+            net.add_edge(step["Id"], next_step_id)
+        elif next_step_id:
+            missing_nodes.append(next_step_id)
         
         # Add conditional edges if available
         if "SelectNextStep" in step:
-            for next_step_id, condition in step["SelectNextStep"].items():
-                net.add_edge(step["Id"], next_step_id, title=condition, color="#ffa500", dash=True)
+            for conditional_step_id, condition in step["SelectNextStep"].items():
+                if conditional_step_id in valid_step_ids:
+                    net.add_edge(step["Id"], conditional_step_id, title=condition, color="#ffa500", dash=True)
+                else:
+                    missing_nodes.append(conditional_step_id)
+
+    # Display warnings if there are missing nodes
+    if missing_nodes:
+        st.warning(f"Warning: The following steps are referenced but not defined in the workflow: {set(missing_nodes)}")
 
     # Display the interactive network in Streamlit
     net.show("workflow_visualization.html")
