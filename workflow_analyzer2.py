@@ -39,7 +39,42 @@ if uploaded_file is not None:
     valid_step_ids = set(step['Id'] for step in dsl_data['Steps'])
     missing_nodes = []
 
-    # Loop through each step and display its details
+    # Enhanced Graph Visualization - Initializing Pyvis Network
+    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
+    
+    # PASS 1: Add all nodes
+    for step in dsl_data['Steps']:
+        step_type = step["StepType"].split(".")[-1]
+        color = type_colors.get(step_type, "#a6cee3")
+        title = f"<b>{step['Name']}</b><br>Type: {step_type}<br>Operation: {step.get('Inputs', {}).get('OperationName', 'N/A')}"
+        net.add_node(step["Id"], label=step["Name"], color=color, title=title)
+
+    # PASS 2: Add edges only after all nodes have been added
+    for step in dsl_data['Steps']:
+        # Check if the NextStepId exists before adding the edge
+        next_step_id = step.get("NextStepId")
+        if next_step_id and next_step_id in valid_step_ids:
+            net.add_edge(step["Id"], next_step_id)
+        elif next_step_id:
+            missing_nodes.append(next_step_id)
+        
+        # Add conditional edges if available
+        if "SelectNextStep" in step:
+            for conditional_step_id, condition in step["SelectNextStep"].items():
+                if conditional_step_id in valid_step_ids:
+                    net.add_edge(step["Id"], conditional_step_id, title=condition, color="#ffa500", dash=True)
+                else:
+                    missing_nodes.append(conditional_step_id)
+
+    # Display warnings if there are missing nodes
+    if missing_nodes:
+        st.warning(f"Warning: The following steps are referenced but not defined in the workflow: {set(missing_nodes)}")
+
+    # Display the interactive network in Streamlit
+    net.show("workflow_visualization.html")
+    st.components.v1.html(open("workflow_visualization.html", "r").read(), height=750, scrolling=True)
+
+    # Display step-by-step information in the Streamlit app
     for step in dsl_data['Steps']:
         step_type = step["StepType"].split(".")[-1]
         color = type_colors.get(step_type, "#a6cee3")
@@ -68,37 +103,3 @@ if uploaded_file is not None:
                         st.write(f" - **Next Step:** {next_step_name} ({next_step_id}), **Condition:** `{condition_expr}`")
                 else:
                     st.write("No conditional transitions.")
-
-    # Enhanced Graph Visualization
-    st.subheader("Workflow Graph Visualization")
-    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
-    
-    # Add nodes and edges with tooltips
-    for step in dsl_data['Steps']:
-        step_type = step["StepType"].split(".")[-1]
-        color = type_colors.get(step_type, "#a6cee3")
-        title = f"<b>{step['Name']}</b><br>Type: {step_type}<br>Operation: {step.get('Inputs', {}).get('OperationName', 'N/A')}"
-        net.add_node(step["Id"], label=step["Name"], color=color, title=title)
-        
-        # Check if the NextStepId exists before adding the edge
-        next_step_id = step.get("NextStepId")
-        if next_step_id and next_step_id in valid_step_ids:
-            net.add_edge(step["Id"], next_step_id)
-        elif next_step_id:
-            missing_nodes.append(next_step_id)
-        
-        # Add conditional edges if available
-        if "SelectNextStep" in step:
-            for conditional_step_id, condition in step["SelectNextStep"].items():
-                if conditional_step_id in valid_step_ids:
-                    net.add_edge(step["Id"], conditional_step_id, title=condition, color="#ffa500", dash=True)
-                else:
-                    missing_nodes.append(conditional_step_id)
-
-    # Display warnings if there are missing nodes
-    if missing_nodes:
-        st.warning(f"Warning: The following steps are referenced but not defined in the workflow: {set(missing_nodes)}")
-
-    # Display the interactive network in Streamlit
-    net.show("workflow_visualization.html")
-    st.components.v1.html(open("workflow_visualization.html", "r").read(), height=750, scrolling=True)
