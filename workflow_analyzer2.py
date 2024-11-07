@@ -1,7 +1,6 @@
 import json
 import streamlit as st
 from pyvis.network import Network
-from graphviz import Digraph
 
 # Streamlit UI Header
 st.title("Enhanced Workflow Analyzer and Visualizer")
@@ -41,24 +40,30 @@ if uploaded_file is not None:
         step_type = step["StepType"].split(".")[-1]
         color = type_colors.get(step_type, "#a6cee3")
         
-        # Display step information in collapsible sections
+        # Display step information in a main expandable section
         with st.expander(f"{step['Name']} (Type: {step_type})", expanded=False):
             st.markdown(f"<span style='color: {color}; font-weight: bold;'>Step Type:</span> {step_type}", unsafe_allow_html=True)
             st.write(f"**Next Step**: {step_id_to_name.get(step.get('NextStepId', ''), 'End of Workflow')}")
             
-            # Display Inputs and Outputs in collapsible sub-sections
-            with st.expander("Inputs"):
-                st.json(step.get("Inputs", {}), expanded=False)
+            # Use tabs instead of nested expanders for Inputs, Outputs, and Conditional Transitions
+            tabs = st.tabs(["Inputs", "Outputs", "Conditional Transitions"])
             
-            with st.expander("Outputs"):
-                st.json(step.get("Outputs", {}), expanded=False)
+            # Inputs tab
+            with tabs[0]:
+                st.json(step.get("Inputs", {}))
             
-            # Display conditional transitions if they exist
-            if "SelectNextStep" in step:
-                st.write("**Conditional Transitions**:")
-                for next_step_id, condition_expr in step["SelectNextStep"].items():
-                    next_step_name = step_id_to_name.get(next_step_id, "Unknown")
-                    st.write(f" - **Next Step:** {next_step_name} ({next_step_id}), **Condition:** `{condition_expr}`")
+            # Outputs tab
+            with tabs[1]:
+                st.json(step.get("Outputs", {}))
+            
+            # Conditional Transitions tab
+            with tabs[2]:
+                if "SelectNextStep" in step:
+                    for next_step_id, condition_expr in step["SelectNextStep"].items():
+                        next_step_name = step_id_to_name.get(next_step_id, "Unknown")
+                        st.write(f" - **Next Step:** {next_step_name} ({next_step_id}), **Condition:** `{condition_expr}`")
+                else:
+                    st.write("No conditional transitions.")
 
     # Enhanced Graph Visualization
     st.subheader("Workflow Graph Visualization")
