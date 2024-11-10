@@ -40,7 +40,7 @@ if uploaded_file is not None:
     missing_nodes = []
 
     # Enhanced Graph Visualization - Initializing Pyvis Network
-    net = Network(height="1000px", width="1000px", bgcolor="#222222", font_color="white")
+    net = Network(height="1000px", width="100%", bgcolor="#222222", font_color="white")
     
     # PASS 1: Add all nodes
     for step in dsl_data['Steps']:
@@ -55,7 +55,7 @@ if uploaded_file is not None:
         # Check if the NextStepId exists before adding the edge
         next_step_id = step.get("NextStepId")
         if next_step_id and next_step_id in valid_step_ids:
-            net.add_edge(step["Id"], next_step_id, arrowStrikethrough = True)
+            net.add_edge(step["Id"], next_step_id, arrowStrikethrough = False)
         elif next_step_id:
             missing_nodes.append(next_step_id)
         
