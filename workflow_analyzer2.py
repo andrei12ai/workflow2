@@ -40,7 +40,7 @@ if uploaded_file is not None:
     missing_nodes = []
 
     # Enhanced Graph Visualization - Initializing Pyvis Network
-    net = Network(height="1000px", width="100%", bgcolor="#222222", font_color="white", directed = True)
+    net = Network(height="1000px", width="100%", bgcolor="#222222", font_color="white", directed = True, Layout = True)
     
     # PASS 1: Add all nodes
     for step in dsl_data['Steps']:
