@@ -46,7 +46,7 @@ if uploaded_file is not None:
     for step in dsl_data['Steps']:
         step_type = step["StepType"].split(".")[-1]
         color = type_colors.get(step_type, "#a6cee3")
-        title = f"<b>{step['Name']}</b><br>Type: {step_type}<br>Operation: {step.get('Inputs', {}).get('OperationName', 'N/A')}"
+        title = f"{step['Id']}"
         shape = "box"
         net.add_node(step["Id"], label=step["Name"], color=color, title=title, shape=shape)
 
