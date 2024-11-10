@@ -55,7 +55,7 @@ if uploaded_file is not None:
         # Check if the NextStepId exists before adding the edge
         next_step_id = step.get("NextStepId")
         if next_step_id and next_step_id in valid_step_ids:
-            net.add_edge(step["Id"], next_step_id)
+            net.add_edge(step["Id"], next_step_id, arrowStrikethrough = True)
         elif next_step_id:
             missing_nodes.append(next_step_id)
         
