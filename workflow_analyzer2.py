@@ -48,7 +48,7 @@ if uploaded_file is not None:
         color = type_colors.get(step_type, "#a6cee3")
         title = f"{step['Id']}"
         shape = "box"
-        net.add_node(step["Id"], label=step["Name"], color=color, title=title, shape=shape)
+        net.add_node(step["Id"], label=step["Name"], color=color, title=title, shape=shape, mass=10)
 
     # PASS 2: Add edges only after all nodes have been added
     for step in dsl_data['Steps']:
