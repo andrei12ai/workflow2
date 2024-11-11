@@ -57,9 +57,9 @@ if uploaded_file is not None:
         # Split the label text into two lines
         label_parts = step["Name"].split(" - ")
         #label = "xx".join(label_parts)
-        label = ""Line 1 
+        label = """Line 1 
         Line 2 
-        Line 3""
+        Line 3"""
         net.add_node(step["Id"], label=label, color=color, title=title, shape=shape, mass=10)
 
     # PASS 2: Add edges only after all nodes have been added
