@@ -91,10 +91,10 @@ if uploaded_file is not None:
 
     # Define colors and icons for each step type
     legend = {
-        "API Call": ("🔵", "blue"),         # Blue for API calls
-        "Context Configurator": ("🟢", "green"),   # Green for Context Configurators
-        "Decision": ("🟡", "yellow"),       # Yellow for Decision steps
-        "Notification": ("🔴", "red")       # Red for Notifications
+        "API Call": ("🟦", "blue"),         # Blue for API calls
+        "Context Configurator": ("🟩", "green"),   # Green for Context Configurators
+        "Decision": ("🟧", "orange"),       # Orange for Decision steps
+        "Notification": ("🟥", "red")       # Red for Notifications
     }
 
     # Display the legend in the Streamlit app
