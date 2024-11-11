@@ -85,8 +85,8 @@ if uploaded_file is not None:
         
         # Display step information in a main expandable section
         with st.expander(f"**{step['Name']}**", expanded=False):
-            #st.markdown(f"<span style='color: {color}; font-weight: bold;'>Step Type:</span> {step_type}", unsafe_allow_html=True)
-            st.write(f"**Next Step**: {step_id_to_name.get(step.get('NextStepId', ''), 'End of Workflow')}")
+            st.markdown(f"<span style='color: {color}; font-weight: bold;'>Step Type:</span> {step_type}", unsafe_allow_html=True)
+            st.write(f"**Next Step**: {step_id_to_name.get(step.get('NextStepId', ''), 'see Conditional Transitions tab')}")
             
             # Use tabs instead of nested expanders for Inputs, Outputs, and Conditional Transitions
             tabs = st.tabs(["Inputs", "Outputs", "Conditional Transitions"])
