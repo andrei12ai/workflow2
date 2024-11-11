@@ -106,7 +106,7 @@ if uploaded_file is not None:
     # Loop through each legend item and display it in a column
     for col, (step_type, (icon, color)) in zip(cols, legend.items()):
         with col:
-            st.markdown(f"{icon} <span style='color:{color}'>{step_type}</span>", unsafe_allow_html=True)
+            st.markdown(f"{icon} <span style='color:{color}; font-weight:bold'>{step_type}</span>", unsafe_allow_html=True)
     
     # Analysis of Workflow Steps
     st.subheader("Workflow Steps Analysis")
