@@ -34,6 +34,12 @@ if uploaded_file is not None:
         "DecideStep": "#ff7f00",
         "MessageSenderStep": "#e31a1c"
     }
+    type_icons = {
+        "ApiCallerStep": "🟦",
+        "ContextConfiguratorStep": "🟩",
+        "DecideStep": "🟧",
+        "MessageSenderStep": "🟥"
+    }
     
     # Initialize a set of valid step IDs to check for missing nodes
     valid_step_ids = set(step['Id'] for step in dsl_data['Steps'])
@@ -82,10 +88,10 @@ if uploaded_file is not None:
     for step in dsl_data['Steps']:
         step_type = step["StepType"].split(",")[0].split(".")[-1]
         color = type_colors.get(step_type, "#a6cee3")
-        
+        icon = type_icons.get(step_type, "🟦")
         # Display step information in a main expandable section
         st.write(1. )
-        with st.expander(f"**{step['Name']}**", expanded=False, icon="🟦"):
+        with st.expander(f"**{step['Name']}**", expanded=False, icon=icon):
             st.markdown(f"<span style='color: {color}; font-weight: bold;'>Step Type:</span> {step_type}", unsafe_allow_html=True)
             st.write(f"**Next Step**: {step_id_to_name.get(step.get('NextStepId', ''), 'see Conditional Transitions tab')}")
             
