@@ -85,8 +85,7 @@ if uploaded_file is not None:
         
         # Display step information in a main expandable section
         text = rf""" 
-            :violet[{step['Name']}].
-
+        :violet[{step['Name']}].
         """
         with st.expander(text, expanded=False):
             st.markdown(f"<span style='color: {color}; font-weight: bold;'>Step Type:</span> {step_type}", unsafe_allow_html=True)
