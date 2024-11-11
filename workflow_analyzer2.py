@@ -85,7 +85,7 @@ if uploaded_file is not None:
         
         # Display step information in a main expandable section
         st.write(1. )
-        with st.expander(f"**{step['Name']}**", expanded=False, icon="0x0001F525"):
+        with st.expander(f"**{step['Name']}**", expanded=False, icon="U+1F525"):
             st.markdown(f"<span style='color: {color}; font-weight: bold;'>Step Type:</span> {step_type}", unsafe_allow_html=True)
             st.write(f"**Next Step**: {step_id_to_name.get(step.get('NextStepId', ''), 'see Conditional Transitions tab')}")
             
