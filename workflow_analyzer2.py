@@ -3,7 +3,7 @@ import streamlit as st
 from pyvis.network import Network
 
 # Streamlit UI Header
-st.title("Enhanced Workflow Analyzer and Visualizer")
+st.title("Enhanced DSL Workflow Analyzer and Visualizer")
 st.write("Upload a DSL JSON file to analyze and visualize the workflow.")
 
 # File Upload
