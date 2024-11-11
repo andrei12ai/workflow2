@@ -1,4 +1,5 @@
-import json
+i]\
+?I>import json
 import streamlit as st
 from pyvis.network import Network
 
@@ -89,6 +90,25 @@ if uploaded_file is not None:
     except Exception as e:
         st.error(f"An error occurred while generating the visualization: {e}")
 
+    # Define colors and icons for each step type
+    legend = {
+        "API Call": ("🔵", "blue"),         # Blue for API calls
+        "Context Configurator": ("🟢", "green"),   # Green for Context Configurators
+        "Decision": ("🟡", "yellow"),       # Yellow for Decision steps
+        "Notification": ("🔴", "red")       # Red for Notifications
+    }
+
+    # Display the legend in the Streamlit app
+    st.markdown("### Legend")
+
+    # Organize the legend items in columns
+    cols = st.columns(len(legend))
+
+    # Loop through each legend item and display it in a column
+    for col, (step_type, (icon, color)) in zip(cols, legend.items()):
+        with col:
+            st.markdown(f"{icon} <span style='color:{color}; font-weight:bold'>{step_type}</span>", unsafe_allow_html=True)
+   
     # Display step-by-step information in the Streamlit app
     for step in dsl_data['Steps']:
         step_type = step["StepType"].split(",")[0].split(".")[-1]
