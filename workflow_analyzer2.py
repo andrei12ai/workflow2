@@ -21,8 +21,8 @@ if uploaded_file is not None:
         st.write(f"**Release Version:** {dsl_data['ReleaseVersion']}")
         st.write(f"**Data Type:** {dsl_data['DataType']}")
 
-    # Analysis of Workflow Steps
-    st.subheader("Workflow Steps Analysis")
+    # Workflow Visualization
+    st.subheader("Workflow Visualization")
     
     # Map Step IDs to names for easier reference
     step_id_to_name = {step['Id']: step['Name'] for step in dsl_data['Steps']}
@@ -106,8 +106,11 @@ if uploaded_file is not None:
     # Loop through each legend item and display it in a column
     for col, (step_type, (icon, color)) in zip(cols, legend.items()):
         with col:
-            st.markdown(f"{icon} <span style='color:{color}; font-weight:bold'>{step_type}</span>", unsafe_allow_html=True)
-   
+            st.markdown(f"{icon} <span style='color:{color}'>{step_type}</span>", unsafe_allow_html=True)
+    
+    # Analysis of Workflow Steps
+    st.subheader("Workflow Steps Analysis")
+    
     # Display step-by-step information in the Streamlit app
     for step in dsl_data['Steps']:
         step_type = step["StepType"].split(",")[0].split(".")[-1]
