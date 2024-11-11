@@ -56,7 +56,7 @@ if uploaded_file is not None:
         shape = "box"
         # Split the label text into two lines
         label_parts = step["Name"].split(" - ")
-        label = "/n".join(label_parts)
+        label = "<br>".join(label_parts)
         net.add_node(step["Id"], label=label, color=color, title=title, shape=shape, mass=10)
 
     # PASS 2: Add edges only after all nodes have been added
