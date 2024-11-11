@@ -84,23 +84,8 @@ if uploaded_file is not None:
         color = type_colors.get(step_type, "#a6cee3")
         
         # Display step information in a main expandable section
-        st.markdown(
-            <style>
-            /* Background color for all expander headers */
-            div.streamlit-expander > div[role="button"] {
-                background-color: #f0f8ff;  /* Light blue background */
-                color: #1f77b4;  /* Dark blue text color */
-                font-weight: bold;
-            }
-            /* Custom text color for content inside the expander */
-            .custom-text {
-                color: #ff6347; /* Tomato color */
-                font-weight: bold;
-            }
-            </style>,
-            unsafe_allow_html=True
-        )
-        with st.expander(f"**{step['Name']}**", expanded=False):
+        
+        with st.expander(f"<font color="green">**{step['Name']}**</font>", expanded=False):
             st.markdown(f"<span style='color: {color}; font-weight: bold;'>Step Type:</span> {step_type}", unsafe_allow_html=True)
             st.write(f"**Next Step**: {step_id_to_name.get(step.get('NextStepId', ''), 'see Conditional Transitions tab')}")
             
