@@ -85,7 +85,6 @@ if uploaded_file is not None:
         
         # Display step information in a main expandable section
         st.markdown(
-            """
             <style>
             /* Background color for all expander headers */
             div.streamlit-expander > div[role="button"] {
@@ -98,8 +97,7 @@ if uploaded_file is not None:
                 color: #ff6347; /* Tomato color */
                 font-weight: bold;
             }
-            </style>
-            """,
+            </style>,
             unsafe_allow_html=True
         )
         with st.expander(f"**{step['Name']}**", expanded=False):
