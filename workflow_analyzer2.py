@@ -80,7 +80,7 @@ if uploaded_file is not None:
 
     # Display step-by-step information in the Streamlit app
     for step in dsl_data['Steps']:
-        step_type = step["StepType"].split(".")[-1]
+        step_type = step["StepType"]
         color = type_colors.get(step_type, "#a6cee3")
         
         # Display step information in a main expandable section
