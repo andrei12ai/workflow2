@@ -46,7 +46,7 @@ if uploaded_file is not None:
     missing_nodes = []
 
     # Enhanced Graph Visualization - Initializing Pyvis Network
-    net = Network(height="1000px", width="100%", bgcolor="#222222", font_color="white", directed = True)
+    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white", directed = True)
     
     # PASS 1: Add all nodes
     for step in dsl_data['Steps']:
@@ -59,7 +59,7 @@ if uploaded_file is not None:
         #label = "xx".join(label_parts)
         label = label_parts[0] + """
         """ + label_parts[1]
-        net.add_node(step["Id"], label=label, color=color, title=title, shape=shape, mass=10)
+        net.add_node(step["Id"], label=label, color=color, title=title, shape=shape, mass=7)
 
     # PASS 2: Add edges only after all nodes have been added
     for step in dsl_data['Steps']:
