@@ -84,10 +84,8 @@ if uploaded_file is not None:
         color = type_colors.get(step_type, "#a6cee3")
         
         # Display step information in a main expandable section
-        text = rf""" 
-        :violet[{step['Name']}].
-        """
-        with st.expander(text, expanded=False):
+        
+        with st.expander(f"**{step['Name']}**", expanded=False):
             st.markdown(f"<span style='color: {color}; font-weight: bold;'>Step Type:</span> {step_type}", unsafe_allow_html=True)
             st.write(f"**Next Step**: {step_id_to_name.get(step.get('NextStepId', ''), 'see Conditional Transitions tab')}")
             
