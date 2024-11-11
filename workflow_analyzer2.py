@@ -87,9 +87,16 @@ if uploaded_file is not None:
         st.markdown(
             """
             <style>
-            /* Background color for all expanders */
-            .streamlit-expanderHeader {
-                background-color: #f0f0f5;  /* Light grey background */
+            /* Background color for all expander headers */
+            div.streamlit-expander > div[role="button"] {
+                background-color: #f0f8ff;  /* Light blue background */
+                color: #1f77b4;  /* Dark blue text color */
+                font-weight: bold;
+            }
+            /* Custom text color for content inside the expander */
+            .custom-text {
+                color: #ff6347; /* Tomato color */
+                font-weight: bold;
             }
             </style>
             """,
